@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wzh.dao.IDUSBlogMapper">
+    <update id="updateBlogById">
+        UPDATE article SET
+	        articleTitle = #{blog.articleTitle},
+	        articleContent = #{blog.articleContent},
+	        articleMdContent = #{blog.articleMdContent},
+            isOriginal = #{blog.isOriginal},
+            articleUrl = #{blog.articleUrl}
+        WHERE
+            articleId = #{blog.articleId}
+    </update>
+
+    <delete id="deleteBlogById">
+        DELETE FROM article 
+        where articleId = #{blog.articleId}
+    </delete>
+    <!-- 查询分类下的文章-->
+    <select id="deleteSortHandler" resultType="int">
+     SELECT count(*) count from sort_article t3
+        WHERE t3.sort_id = #{sortId}
+    </select>
+    
+    <delete id="deleteSortArticle">
+        DELETE FROM sort_article
+        where article_id = #{blog.articleId}
+    </delete>
+    <delete id="deleteSort">
+        DELETE FROM sort WHERE
+	        sort_id = #{sortId}
+    </delete>
+    <!-- 查询分类id   -->
+    <select id="findSortIdByArticleId" resultType="int">
+        SELECT t1.sort_id FROM article t
+        LEFT JOIN sort_article t1
+        ON t.articleId = t1.article_id
+        WHERE t.articleId = #{blog.articleId}
+    </select>
+
+    <select id="findTagIdByArticleId" resultType="int">
+        SELECT t1.tags_id FROM article t
+        LEFT JOIN tags_article t1
+        ON t.articleId = t1.article_id
+        WHERE t.articleId = #{blog.articleId}
+    </select>
+
+    <select id="deleteTagHandler" resultType="int">
+         SELECT count(*) count from tags_article t3
+        WHERE t3.tags_id = #{tagsId}
+    </select>
+
+    <delete id="deleteTag">
+        DELETE FROM tags
+        where tags_id = #{tagId}
+    </delete>
+    <delete id="deleteTagArticle">
+        DELETE FROM tags_article
+        where article_id = #{blog.articleId}
+    </delete>
+</mapper>

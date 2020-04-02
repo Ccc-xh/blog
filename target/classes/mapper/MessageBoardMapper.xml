@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzh.dao.MessageBoardMapper">
+    <insert id="addMessage">
+        INSERT INTO message_board (
+		time,
+		message,
+		name,
+		f_id
+    )VALUES(
+		#{messageBoard.time},
+		#{messageBoard.message},
+		#{messageBoard.name},
+		#{messageBoard.fId}
+        )
+    </insert>
+    <select id="findAllMessage" resultType="com.wzh.vo.MessageBoard">
+        SELECT id,time,message,name,f_id fId
+        from message_board
+    </select>
+</mapper>
+

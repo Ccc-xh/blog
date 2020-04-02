@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="qcloudsms-1.0.6-javadoc">
+    <CLASSES />
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../qcloudsms_java-1.0.6/qcloudsms_java-1.0.6/releases/qcloudsms-1.0.6-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../qcloudsms_java-1.0.6/qcloudsms_java-1.0.6/releases/qcloudsms-1.0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

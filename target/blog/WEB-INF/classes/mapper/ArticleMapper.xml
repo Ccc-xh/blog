@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wzh.dao.ArticleMapper">
+    <select id="findAll" resultType="com.wzh.vo.ArticleList">
+    SELECT
+	t.articleId articleId,
+	t.author author,
+	t.articleTitle articleTitle,
+	t.articleContent articleContent,
+	t.articleMdContent articleMdContent,
+	t.publishDate publishDate,
+	t.isOriginal isOriginal,
+	t.articleUrl articleUrl,
+	t.viewNum viewNum,
+	t.articleImg articleImg,
+	t2.sort_name sortName,
+	t2.sort_f_id sortFId,
+	t.topFlag topFlag,
+	t4.tags_name tagsName
+FROM
+	article t
+LEFT JOIN sort_article t1 ON t.articleId = t1.article_id
+LEFT JOIN sort t2 ON t1.sort_id = t2.sort_id
+LEFT JOIN tags_article t3 ON t3.article_id = t.articleId
+LEFT JOIN tags t4 ON t3.tags_id = t4.tags_id
+where  1= 1
+<if test="topFlag == 1">
+	  and t.topFlag = 1
+</if>
+<if test="blogTypeId != 0">
+	 and t2.sort_f_id = #{blogTypeId}
+</if>
+<if test="randomFlag == 0">
+	ORDER BY
+	t.publishDate DESC
+</if>
+
+</select>
+
+	<select id="findById" resultType="com.wzh.vo.ArticleList">
+            SELECT
+	t.articleId articleId,
+	t.author author,
+	t.articleTitle articleTitle,
+	t.articleContent articleContent,
+	t.articleMdContent articleMdContent,
+	t.publishDate publishDate,
+	t.isOriginal isOriginal,
+	t.articleUrl articleUrl,
+	t.viewNum viewNum,
+	t.articleImg articleImg,
+	t2.sort_name sortName,
+	t.topFlag topFlag,
+	t4.tags_name tagsName,
+	t2.sort_f_id sortFId
+FROM
+	article t
+LEFT JOIN sort_article t1 ON t.articleId = t1.article_id
+LEFT JOIN sort t2 ON t1.sort_id = t2.sort_id
+LEFT JOIN tags_article t3 ON t3.article_id = t.articleId
+LEFT JOIN tags t4 ON t3.tags_id = t4.tags_id
+where  t.articleId = #{contentId}
+
+	</select>
+	<select id="getCount" resultType="int">
+		SELECT
+			count(*) count
+		FROM
+		article t
+		LEFT JOIN sort_article t1 ON t.articleId = t1.article_id
+		LEFT JOIN sort t2 ON t1.sort_id = t2.sort_id
+		LEFT JOIN tags_article t3 ON t3.article_id = t.articleId
+		LEFT JOIN tags t4 ON t3.tags_id = t4.tags_id
+		where  1= 1
+			and t.topFlag = 1
+
+		<if test="randomFlag == 0">
+			ORDER BY
+			t.publishDate DESC
+		</if>
+	</select>
+</mapper>

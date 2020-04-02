@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wzh.dao.InsertBlogMapper">
+    <!--  插入博客文章  -->
+    <insert id="insertContent" >
+        INSERT INTO article (
+            author,
+            articleTitle,
+            articleContent,
+            articleMdContent,
+            publishDate,
+            isOriginal,
+            articleImg,
+            topFlag,
+            articleUrl
+        ) values(
+            #{blog.author},
+            #{blog.articleTitle},
+            #{blog.articleContent},
+            #{blog.articleMdContent},
+            #{blog.publishDate},
+            #{blog.isOriginal},
+            #{blog.articleImg},
+            #{blog.topFlag},
+            #{blog.articleUrl}
+        )
+    </insert>
+    <select id="findSortName"  resultType="java.lang.String">
+            select  sort_name from sort where sort_name = #{blog.sortName}
+    </select>
+<!--    <update id="">-->
+
+<!--    </update>-->
+    <!-- 插入分类   -->
+    <insert id="insertSortName" >
+        INSERT INTO sort (
+	        sort_name,
+	        sort_f_id
+        ) VALUES (
+	        #{blog.sortName},
+	        #{blog.sortFId}
+        )
+    </insert>
+
+    <!-- 关联文章与分类   -->
+    <insert id="coonectionContentAndSortName" >
+        INSERT INTO sort_article (
+	        article_id,
+            sort_id
+        ) VALUES (
+	        (SELECT articleId from article WHERE articleTitle = #{blog.articleTitle}),
+            (SELECT sort_id from sort WHERE sort_name = #{blog.sortName})
+        )
+    </insert>
+    <!-- 判断标签是否存在 -->
+    <select id="findTags" resultType="java.lang.String">
+        select tags_name from tags where tags_name = #{blog.tagsName}
+    </select>
+    <!--插入标签-->
+    <insert id="insertTags">
+        INSERT INTO tags (
+	tags_name
+	)VALUES
+		(
+		#{blog.tagsName}
+		)
+    </insert>
+    <!-- 关联标签文章   -->
+    <insert id="connectionContentAndTags">
+        insert  into tags_article (tags_id,article_id)
+        values (
+            (select tags_id from tags where  tags_name = #{blog.tagsName}),
+            (SELECT articleId from article WHERE articleTitle = #{blog.articleTitle})
+        )
+    </insert>
+</mapper>
